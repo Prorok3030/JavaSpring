@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/", "/registration", "/about").permitAll()
-                    .antMatchers("/taskEdit/**").hasRole(Role.ADMIN.name())
+                    //.antMatchers("/taskEdit/**").hasRole(Role.USER.name()) (возможно работает только со способом через Bean (ниже)
                     .anyRequest().authenticated()
                 .and()
                     .formLogin() //даёт формочку с авторизацией (если нет своей, то ставит из коробки)
@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout()
                     .logoutSuccessUrl("/")
                     .permitAll();
+                     http.csrf().disable(); //отключение csrf (хз, мб не из-за этого не работало)
     }
 
     @Override

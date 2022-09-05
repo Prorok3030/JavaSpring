@@ -11,6 +11,10 @@
 <!--{{#message}}
     {{message}}
 {{/message}}-->
+<div th:if="${message}">
+    <b th:text="${message}"></b>
+</div>
+
 <form th:action="@{/registration}" method="post">
     <div><label> User Name : <input type="text" name="username"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>

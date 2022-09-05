@@ -1,7 +1,9 @@
 package com.example.tutorboot.controllers;
 
 import com.example.tutorboot.models.Tasks;
+import com.example.tutorboot.models.User;
 import com.example.tutorboot.repo.TaskRepository;
+import com.example.tutorboot.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +24,14 @@ public class TaskController {
         this.taskRepository = taskRepository;
     }
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/tasks")
     public String home(Model model, Principal principal) {
-        Iterable<Tasks> tasks = taskRepository.findAll();
+        Long id = userRepository.findByUsername(principal.getName()).getId();
+        model.addAttribute("id", "Твой id: " + id);
+        Iterable<Tasks> tasks = taskRepository.findByName("test");
         model.addAttribute("tasks", tasks);
         model.addAttribute("username", "Привет, " + principal.getName() + "!");
         return "tasks";

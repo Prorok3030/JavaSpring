@@ -25,6 +25,7 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String registrationPost(User user, Map<String, Object> model){
         User DbUser = userRepository.findByUsername(user.getUsername());
+        DbUser.getId();
 
         if (DbUser != null) {
             model.put("message", "Пользователь уже существует");
@@ -32,7 +33,7 @@ public class RegistrationController {
         }
 
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Collections.singleton(Role.ADMIN));
         userRepository.save(user);
 
         return "redirect:/tasks";
