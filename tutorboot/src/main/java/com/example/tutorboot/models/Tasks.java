@@ -1,9 +1,9 @@
 package com.example.tutorboot.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 
 @Entity
 public class Tasks {
@@ -14,13 +14,24 @@ public class Tasks {
     private String skill_name;
     private String difficulty;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Long getUserId() { //TODO Spring Boot magic
+             return user.getId();
+    }
+
     public Tasks() {
     }
 
-    public Tasks(String name, String skill_name, String difficulty) {
+
+    public Tasks(String name, String skill_name, String difficulty, User user) {
         this.name = name;
         this.skill_name = skill_name;
         this.difficulty = difficulty;
+        this.user = user;
     }
 
     public Long getId() {
@@ -53,5 +64,13 @@ public class Tasks {
 
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
