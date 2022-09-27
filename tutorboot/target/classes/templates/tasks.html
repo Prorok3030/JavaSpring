@@ -13,7 +13,6 @@
     </form>
 </div>
 <h3 class="fw-bold" th:text="${username}"></h3>
-<h4 class="fw-bold" th:text="${id}"></h4>
 <p class="lead mb-4">Вот твой список задач. Наслаждайся!</p>
 <h3 class="fw-bold" th:text="${user.level} + ' lvl'"></h3>
 <h4 class="fw-bold" th:text="${user.experience} + '/50 exp'"></h4>
@@ -29,11 +28,11 @@
             <th scope="col">User_id</th>
         </tr>
         </thead>
-        <tbody th:each="el : ${tasks}">
-        <tr>
+        <tbody>
+        <tr th:each="el : ${tasksPage.content}">
             <td th:text="${el.name}"/>
             <td th:text="${el.skill_name}"/>
-            <td th:text="${el.difficulty}"/>
+            <td th:text="${el.DifficultyName}"/>
             <td th:text="${el.UserId}"/>
             <td><a class="btn btn-primary" th:href="@{taskSkillUp/{id}(id=${el.id})}" role="button">Complete</a></td>
             <td><a class="btn btn-primary" th:href="@{taskEdit/{id}(id=${el.id})}" role="button">Edit</a></td>
@@ -41,6 +40,25 @@
         </tr>
         </tbody>
     </table>
+</div>
+<div th:if="${totalPages > 0}">
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item" th:classappend="${currentPage < 2}? 'disabled' : ''">
+            <a class="page-link" th:href="@{/tasks(size=${tasksPage.size}, page=${currentPage - 1})}">Previous</a>
+        </li>
+        <li class="page-item" th:each="pageNumber : ${pageNumbers}"
+           th:classappend="${pageNumber}==${currentPage}? 'active' : ''">
+              <a class="page-link"
+                 th:href="@{/tasks(size=${tasksPage.size}, page=${pageNumber})}"
+                 th:text=${pageNumber}>
+             </a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages}? 'disabled' : ''">
+            <a class="page-link" th:href="@{/tasks(size=${tasksPage.size}, page=${currentPage + 1})}">Next</a>
+        </li>
+    </ul>
+</nav>
 </div>
 
 <section class="py-5 text-center container">

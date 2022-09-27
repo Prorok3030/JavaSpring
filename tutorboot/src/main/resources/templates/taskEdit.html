@@ -18,8 +18,8 @@
         </select><br>
         <td>Difficulty</td>
         <select th:field="*{difficulty}">
-            <option th:each="difficulty : ${difficulties}" th:value="${difficulty}"
-                    th:text="${difficulty}"></option>
+            <option th:each="difficulties : ${difficulties}" th:value="${difficulties.id}"
+                    th:text="${difficulties.name}">
         </select><br>
         <button type="submit" class="btn btn-success">Update</button>
     </form>
